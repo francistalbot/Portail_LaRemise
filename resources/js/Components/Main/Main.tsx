@@ -14,7 +14,7 @@ export const Main = () => {
     const isDevice: boolean = Browser.isDevice;
     const navigate = useNavigate();
 
-    const onItemClick = (args: Event): void => {
+    const onItemClick = (args: React.MouseEvent<HTMLDivElement>): void => {
         if (isDevice) {
             sideBar.current?.hide();
         }
@@ -22,7 +22,7 @@ export const Main = () => {
             navigate("/" + (args.currentTarget as HTMLElement).id);
         }
         const elements: HTMLElement[] = [].slice.call(
-            (args.currentTarget as HTMLElement).parentElement.querySelectorAll(
+            (args.currentTarget as HTMLElement).parentElement?.querySelectorAll(
                 ".active-item"
             )
         );
