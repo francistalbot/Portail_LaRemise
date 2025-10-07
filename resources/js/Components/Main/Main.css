@@ -1,3 +1,17 @@
+.e-sidebar.e-left {
+  top: auto;
+}
+.main-content {
+  height:95%;
+  width:100%;
+  position:fixed;
+  overflow:scroll
+}
+
+.portal-wrapper .e-content-animation {
+  margin-left: 0 !important;
+  padding-left: 243px;
+}
 #portalSideBar .info {
     margin-top: 60px;
     padding-bottom: 10px;
