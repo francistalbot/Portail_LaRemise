@@ -5,6 +5,8 @@ import { Provider } from "react-redux";
 import Scheduler from "@/Components/Scheduler/Scheduler";
 
 import { store } from "@/app/store";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+
 export const Main = () => {
     const isDevice: boolean = Browser.isDevice;
     return (
@@ -69,9 +71,18 @@ export const Main = () => {
             </SidebarComponent>
             <main className=" main-content e-content-animation">
                 <div className="main-wrapper px-5 py-3">
-                    <Provider store={store}>
-                        <Scheduler />
-                    </Provider>
+                    <BrowserRouter>
+                        <Routes>
+                            <Route
+                                path="/"
+                                element={
+                                    <Provider store={store}>
+                                        <Scheduler />
+                                    </Provider>
+                                }
+                            />
+                        </Routes>
+                    </BrowserRouter>
                 </div>
             </main>
         </div>
