@@ -1,0 +1,259 @@
+.e-sidebar.e-left {
+  top: auto;
+}
+.main-content {
+  height:95%;
+  width:100%;
+  position:fixed;
+  overflow:scroll
+}
+
+.portal-wrapper .e-content-animation {
+  margin-left: 0 !important;
+  padding-left: 243px;
+}
+#portalSideBar .info {
+    margin-top: 60px;
+    padding-bottom: 10px;
+}
+
+#portalSideBar .info .image {
+    border: 2px solid var(--portal-element-back-color);
+    box-shadow: 0 3px 7px 0 rgba(117, 117, 255, 0.30);
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    margin: auto;
+}
+
+#portalSideBar .info .image img {
+    height: 80px;
+    width: 80px;
+    border-radius: 50%;
+}
+
+#portalSideBar .info .name,
+#portalSideBar .info .user-type {
+    text-align: center;
+}
+
+#portalSideBar .info .name {
+    font-weight: bold;
+    font-size: 16px;
+    color: var(--portal-font-color1);
+    letter-spacing: 0.48px;
+    margin-bottom: 0;
+}
+
+#portalSideBar .info .user-type {
+    font-size: 11px;
+    color: #808080;
+    letter-spacing: 0.33px;
+    margin-top: 5px;
+}
+
+#portalSideBar .info::after {
+    content: '';
+    background-image: linear-gradient(-90deg, var(--portal-element-back-color) 3%, #B8CBCC 51%, var(--portal-element-back-color) 95%);
+    height: 1px;
+    width: 100%;
+    position: absolute;
+}
+
+#portalSideBar div.sidebar-item {
+    width: 210px;
+    height: 50px;
+    border-radius: 3px;
+    margin: 0 16px;
+    display: flex;
+    align-items: center;
+    color: var(--portal-font-color2);
+    cursor: pointer;
+}
+
+#portalSideBar div.sidebar-item .text {
+    font-weight: 500;
+    font-size: 13px;
+    letter-spacing: 0.39px;
+    margin: 0 15px;
+    text-align: left;
+}
+
+#portalSideBar div.sidebar-item:first {
+    padding-top: 10px;
+}
+
+#portalSideBar div.sidebar-item:hover {
+    background-color: var(--portal-hover-bg-color);
+}
+
+#portalSideBar div.sidebar-item.active-item {
+    background-color: var(--portal-element-bg-color) !important;
+    color: var(--portal-element-back-color);
+}
+
+#portalSideBar div.sidebar-item.active-item:hover {
+    color: var(--portal-element-back-color) !important;
+}
+
+#portalSideBar div.sidebar-item .dashboard-image,
+#portalSideBar div.sidebar-item .scheduler-image,
+#portalSideBar div.sidebar-item .doctors-image,
+#portalSideBar div.sidebar-item .volunteers-image,
+#portalSideBar div.sidebar-item .preference-image,
+#portalSideBar div.sidebar-item .about-image {
+    width: 30%;
+    text-align: right;
+}
+
+.portal-header {
+    background: var(--portal-element-bg-color) !important;
+    height: 50px;
+    display: flex;
+}
+
+.portal-header .name-container {
+    flex: auto;
+    display: inline-flex;
+}
+
+.portal-header .name-container .clinic-image {
+    font-size: 50px;
+    color: var(--portal-element-back-color);
+}
+
+.portal-header .clinic-name,
+.portal-header .logout-name {
+    margin: auto 0;
+    color: white;
+    cursor: default;
+    font-size: 16px;
+    font-weight: 400;
+}
+
+.portal-header div.side-bar-opener {
+    display: block;
+    flex: auto;
+    position: relative;
+    padding-right: 50px;
+}
+
+.portal-header div.side-bar-opener .open-icon {
+    margin: 15px;
+    position: absolute;
+    font-size: 20px;
+    color: var(--portal-element-back-color);
+    height: 24px;
+    width: 24px;
+}
+
+.portal-header div.side-bar-opener .open-icon::before {
+    content: '\e941';
+}
+
+.portal-header .logout-container {
+    padding: 5px;
+    flex: initial;
+    display: flex;
+}
+
+.portal-header .logout-container .logout-icon-container {
+    opacity: 1;
+    flex: auto;
+    padding: 0 7px;
+    align-self: center;
+}
+
+.portal-header .logout-container .logout-name {
+    display: none;
+}
+
+.portal-header .logout-container .logout-image {
+    line-height: 2;
+    color: var(--portal-element-back-color);
+    font-size: 25px;
+}
+
+.portal-header .sb-table-cell {
+    padding-right: 6px;
+    vertical-align: middle;
+}
+
+.portal-header .sb-table-cell .sb-github-btn {
+    width: 40px;
+    opacity: 100;
+    padding: 11px 8px;
+    border-radius: 0px;
+    border-width: 0px;
+    font-family: "Roboto", "Segoe UI", "GeezaPro", "DejaVu Serif", "sans-serif";
+    font-weight: 500;
+    line-height: 18px;
+    border-color: transparent;
+    background: transparent;
+}
+
+.portal-header .sb-table-cell .sb-github-btn .github-image img {
+    filter: brightness(0) invert(100%);
+}
+
+.portal-header.device-header .clinic-name {
+    line-height: 1.2;
+}
+
+.portal-header:not(.device-header) {
+    display: flex;
+}
+
+.portal-header:not(.device-header) div.side-bar-opener {
+    display: none;
+}
+
+.portal-header:not(.device-header) .logout-container {
+    padding: 7px 10px;
+}
+
+.portal-header:not(.device-header) .logout-container .logout-name {
+    flex: initial;
+    display: block;
+}
+
+.portal-header:not(.device-header) .logout-container .logout-icon-container {
+    opacity: 0.5;
+}
+
+.portal-header:not(.device-header) .logout-container::before {
+    content: '';
+    height: 33px;
+    border: 1px solid var(--portal-element-back-color);
+    opacity: 0.5;
+}
+
+.portal-wrapper .e-content-animation {
+    margin-left: 0 !important;
+    padding-left: 243px;
+}
+
+.portal-wrapper.device-wrapper .e-content-animation {
+    margin-left: 243;
+    padding-left: 0;
+}
+
+@media (max-width: 700px) {
+    .portal-dashboard .list-display {
+        padding: 20px 0px 0px 0px;
+    }
+
+    .portal-dashboard .text-display {
+        padding-top: 10px;
+        padding-bottom: 10px;
+        padding-right: 0px;
+    }
+
+    .col-lg-12.col-md-12.col-sm-12.dashboard-control {
+        padding-right: 0px;
+    }
+
+    .col-lg-3.col-md-3.col-sm-3.treeview-container-wrapper .title-container {
+        margin-top: 20px;
+    }
+}
