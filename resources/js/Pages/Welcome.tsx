@@ -3,6 +3,7 @@ import { Main } from "@/Components/Main/Main";
 import { PageProps } from "@/types";
 import { Head, Link } from "@inertiajs/react";
 import { Provider } from "react-redux";
+import { BrowserRouter } from "react-router-dom";
 
 export default function Welcome({
     auth,
@@ -50,7 +51,9 @@ export default function Welcome({
                             </div>
                         </header>
 
-                        <Main />
+                        <BrowserRouter>
+                            <Main />
+                        </BrowserRouter>
 
                         <footer className="py-16 text-center text-sm text-black dark:text-white/70">
                             Laravel v{laravelVersion} (PHP v{phpVersion})
