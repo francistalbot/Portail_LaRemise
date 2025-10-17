@@ -7,13 +7,16 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Comite extends Model
 {
-    use HasFactory;
 
     protected $fillable = [
         'nom',
         'couleur',
+        'succursale_id',
     ];
 
-
-
+    
+    public function succursale()
+    {
+        return $this->belongsTo(Succursale::class);
+    }
 }

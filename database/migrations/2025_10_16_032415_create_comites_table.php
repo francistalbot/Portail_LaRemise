@@ -14,7 +14,9 @@ return new class extends Migration
         Schema::create('comites', function (Blueprint $table) {
             $table->id();
             $table->string('nom')->unique();
+            $table->foreignId('succursale_id')->constrained('succursales')->onDelete('cascade');
             $table->string('couleur', 7)->nullable(); // Hex color code
+            $table->timestamps();
         });
     }
 

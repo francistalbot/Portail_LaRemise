@@ -8,7 +8,6 @@ use Carbon\Carbon;
 
 class PlageHoraire extends Model
 {
-    use HasFactory;
 
     protected $fillable = [
         'titre',
@@ -19,7 +18,6 @@ class PlageHoraire extends Model
         'recurrence_regle',
         'recurrence_exception',
         'recurrence_id',
-        'succursale_id',
         'comite_id'
     ];
     protected $casts = [
@@ -41,7 +39,12 @@ class PlageHoraire extends Model
     {
         return $this->belongsTo(Succursale::class);
     }
-
+    
+    public function postes()
+    {
+        return $this->belongsToMany(Poste::class, 'plage_horaire_poste')
+            ->withTimestamps();
+    }
     // Méthodes utiles
     public function getDureeAttribute(): int
     {

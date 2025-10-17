@@ -18,7 +18,6 @@ return new class extends Migration
             $table->string('email')->nullable();
             $table->string('slackUserId')->nullable();
             $table->foreignId('comite_id')->constrained('comites')->onDelete('cascade');
-            $table->foreignId('succursale_id')->constrained('succursales')->onDelete('cascade');
         });
     }
 

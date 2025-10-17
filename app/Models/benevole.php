@@ -8,8 +8,6 @@ use Carbon\Carbon;
 
 class benevole extends Model
 {
-    /** @use HasFactory<\Database\Factories\BenevoleFactory> */
-    use HasFactory;
 
     protected $fillable = [
         'nom',

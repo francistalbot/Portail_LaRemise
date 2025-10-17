@@ -28,7 +28,6 @@ return new class extends Migration
             $table->foreignId('recurrence_id')->nullable()->constrained('plage_horaires')->onDelete('cascade'); // Référence vers la plage mère pour les récurrences
             // Relations
             $table->foreignId('comite_id')->nullable()->constrained('comites')->onDelete('set null');
-            $table->foreignId('succursale_id')->nullable()->constrained('succursales')->onDelete('set null');
             
             $table->timestamps();
             

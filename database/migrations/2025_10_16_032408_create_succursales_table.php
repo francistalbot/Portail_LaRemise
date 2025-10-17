@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('nom')->unique();
             $table->string('couleur', 7)->nullable(); // Hex color code
+            $table->timestamps();
         });
     }
 

@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Succursale extends Model
 {
-    use HasFactory;
 
     protected $fillable = [
         'nom',

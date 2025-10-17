@@ -6,9 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class Poste extends Model
 {
-     use HasFactory;
-
     protected $fillable = [
         'nom'
     ];
+
+    public function plagesHoraires()
+    {
+        return $this->belongsToMany(PlageHoraire::class, 'plage_horaire_poste')
+            ->withTimestamps();
+    }
 }
