@@ -12,15 +12,8 @@ class PlageHoraireController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        $plagesHoraires = PlageHoraire::all();
+        return response()->json($plagesHoraires);
     }
 
     /**
@@ -28,7 +21,19 @@ class PlageHoraireController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'titre' => 'required|string|max:255',
+            'date_debut' => 'required|date',
+            'date_fin' => 'required|date|after:date_debut',
+            'description' => 'nullable|string',
+            'is_all_day' => 'boolean',
+            'recurrence_regle' => 'nullable|string',
+            'recurrence_exception' => 'nullable|string',
+            'recurrence_id' => 'nullable|integer|exists:plage_horaires,id',
+            'comite_id' => 'required|integer|exists:comites,id'
+        ]);
+        $plageHoraire = PlageHoraire::create($validated);
+        return response()->json($plageHoraire, 201);
     }
 
     /**
@@ -36,15 +41,7 @@ class PlageHoraireController extends Controller
      */
     public function show(PlageHoraire $plageHoraire)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(PlageHoraire $plageHoraire)
-    {
-        //
+        return response()->json($plageHoraire);
     }
 
     /**
@@ -53,6 +50,20 @@ class PlageHoraireController extends Controller
     public function update(Request $request, PlageHoraire $plageHoraire)
     {
         //
+    
+        $validated = request()->validate([
+            'titre' => 'sometimes|required|string|max:255',
+            'date_debut' => 'sometimes|required|date',
+            'date_fin' => 'sometimes|required|date|after:date_debut',
+            'description' => 'nullable|string',
+            'is_all_day' => 'sometimes|boolean',
+            'recurrence_regle' => 'nullable|string',
+            'recurrence_exception' => 'nullable|string',
+            'recurrence_id' => 'nullable|integer|exists:plage_horaires,id',
+            'comite_id' => 'sometimes|required|integer|exists:comites,id'
+        ]);
+        PlageHoraire::where('id', $plageHoraire->id)->update($validated);
+        return response()->json(['message' => 'Plage horaire mise a jour avec succes.']);
     }
 
     /**
@@ -60,6 +71,7 @@ class PlageHoraireController extends Controller
      */
     public function destroy(PlageHoraire $plageHoraire)
     {
-        //
+        $plageHoraire = PlageHoraire::destroy($plageHoraire->id);
+        return response()->json(['message' => 'Plage horaire supprimee avec succes.']);
     }
 }

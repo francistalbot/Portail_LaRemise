@@ -107,6 +107,12 @@ class ReferenceDataController extends Controller
         return response()->json($benevole->load('comite'), 201);
     }
 
+    public function destroyBenevole(Benevole $benevole)
+    {
+        Benevole::destroy($benevole->id);
+        return response()->json(['message' => 'Benevole supprime avec succes.']);
+    }
+
     /**
      * Méthodes utilitaires
      */
@@ -123,4 +129,5 @@ class ReferenceDataController extends Controller
             $comite->benevoles()->get(['id', 'nom', 'email'])
         );
     }
+    
 }
