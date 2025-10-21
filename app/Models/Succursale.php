@@ -11,4 +11,12 @@ class Succursale extends Model
         'nom',
         'couleur',
     ];
+
+    /**
+     * Relation: Une succursale a plusieurs comités
+     */
+    public function comites()
+    {
+        return $this->hasMany(Comite::class);
+    }
 }

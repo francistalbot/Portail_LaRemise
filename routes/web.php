@@ -13,11 +13,15 @@ Route::get('/', function () {
         'laravelVersion' => Application::VERSION,
         'phpVersion' => PHP_VERSION,
     ]);
-});
+})->name('welcome');
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::get('/calendar', function () {
+    return Inertia::render('Calendar');
+})->name('calendar');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -46,7 +50,8 @@ Route::prefix('api')->group(function () {
     // Bénévoles
     Route::get('/benevoles', [ReferenceDataController::class, 'benevoles'])->name('benevoles.index');
     Route::post('/benevoles', [ReferenceDataController::class, 'storeBenevole'])->name('benevoles.store');
-
+    Route::get('/comites/{comite}/benevoles', [ReferenceDataController::class, 'benevolesByComite'])->name('benevoles.by-comite');
+    
     // Plages horaires
     Route::get('/plages-horaires', [ReferenceDataController::class, 'plagesHoraires'])->name('plages-horaires.index');
     Route::post('/plages-horaires', [ReferenceDataController::class, 'storePlageHoraire'])->name('plages-horaires.store');

@@ -14,9 +14,19 @@ class Comite extends Model
         'succursale_id',
     ];
 
-    
+    /**
+     * Relation: Un comité appartient à une succursale
+     */
     public function succursale()
     {
         return $this->belongsTo(Succursale::class);
+    }
+
+    /**
+     * Relation: Un comité a plusieurs bénévoles
+     */
+    public function benevoles()
+    {
+        return $this->hasMany(Benevole::class);
     }
 }

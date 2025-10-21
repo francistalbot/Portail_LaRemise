@@ -1,7 +1,9 @@
+import { store } from "@/app/store";
+import Scheduler from "@/Components/Scheduler/Scheduler";
 import AppLayout from "@/Layouts/AppLayout";
 import { PageProps } from "@/types";
 import { Head, Link } from "@inertiajs/react";
-import { Dashboard } from "@/Components/Dashboard/Dashboard";
+import { Provider } from "react-redux";
 
 export default function Welcome({
     auth,
@@ -17,9 +19,13 @@ export default function Welcome({
             }}
         >
             <Head title="Welcome" />
-            <div className="main-wrapper px-5 py-3">
-                <Dashboard />
-            </div>
+            <main className=" main-content e-content-animation">
+                <div className="main-wrapper px-5 py-3">
+                    <Provider store={store}>
+                        <Scheduler />
+                    </Provider>
+                </div>
+            </main>
         </AppLayout>
     );
 }
