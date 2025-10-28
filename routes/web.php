@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReferenceDataController;
+use App\Http\Controllers\PlageHoraireController;
+use App\Http\Controllers\AffectationController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -53,13 +55,13 @@ Route::prefix('api')->group(function () {
     Route::get('/comites/{comite}/benevoles', [ReferenceDataController::class, 'benevolesByComite'])->name('benevoles.by-comite');
     
     // Plages horaires
-    Route::get('/plages-horaires', [ReferenceDataController::class, 'plagesHoraires'])->name('plages-horaires.index');
-    Route::post('/plages-horaires', [ReferenceDataController::class, 'storePlageHoraire'])->name('plages-horaires.store');
+    Route::get('/plages-horaires', [PlageHoraireController::class, 'index'])->name('plages-horaires.index');
+    Route::post('/plages-horaires', [PlageHoraireController::class, 'store'])->name('plages-horaires.store');
 
     // Affectations
-    Route::get('/affectations', [ReferenceDataController::class, 'affectations'])->name('affectations.index');
-    Route::post('/affectations', [ReferenceDataController::class, 'storeAffectation'])->name('affectations.store');
-    
+    Route::get('/affectations', [AffectationController::class, 'index'])->name('affectations.index');
+    Route::post('/affectations', [AffectationController::class, 'store'])->name('affectations.store');
+
 });
 
 require __DIR__.'/auth.php';
