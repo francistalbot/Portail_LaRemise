@@ -9,7 +9,6 @@ class Succursale extends Model
 
     protected $fillable = [
         'nom',
-        'couleur',
     ];
 
     /**

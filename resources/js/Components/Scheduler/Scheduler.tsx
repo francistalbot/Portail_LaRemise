@@ -23,12 +23,10 @@ import { CustomDataManager } from "./customDataManager";
 import { AgendaEventTemplate, EventTemplate } from "./EventTemplate";
 
 export default function Scheduler({ data }: { data: Record<string, any> }) {
-
     console.log("données dans Scheduler.tsx :", data.plagesHoraires);
-    
+
     // Sélectionner seulement les données spécifiques nécessaires
     const dataManager = CustomDataManager.getInstance();
-
 
     const referenceData = dataManager.getReferenceData();
 
@@ -38,9 +36,9 @@ export default function Scheduler({ data }: { data: Record<string, any> }) {
         },
     };
 
+    console.log("plagesHoraires dans Scheduler.tsx :", data.plagesHoraires);
     const eventSettings: EventSettingsModel = {
         dataSource: data.plagesHoraires || [],
-       fields: { id: 'id', subject: { title: 'Title', name: 'titre' }, location: { title: 'Location', name: 'Location' }, description: { title: 'Description', name: 'description' }, startTime: { title: 'From', name: 'date_debut' }, endTime: { title: 'To', name: 'date_fin' }, recurrenceRule: { title: 'Recurrence', name: 'recurrence_regle' },  recurrenceException: { title: 'Recurrence Exception', name: 'recurrence_exception'}, },
     };
 
     const onPopupOpen = (args: PopupOpenEventArgs) => {
@@ -79,8 +77,8 @@ export default function Scheduler({ data }: { data: Record<string, any> }) {
                     group={{
                         byGroupID: true,
                         allowGroupEdit: true,
-                        resources: ["Succursals", "Comités"],
-                        idGroup: "ComiteId",
+                        resources: ["Succursales", "Comités"],
+                        idGroup: "ComiteID",
                     }}
                 />
                 <ViewDirective option="Week" />
@@ -94,11 +92,11 @@ export default function Scheduler({ data }: { data: Record<string, any> }) {
             </ViewsDirective>
             <ResourcesDirective>
                 <ResourceDirective
-                    field="SuccursalID"
-                    title="Succursal"
-                    name="Succursals"
+                    field="SuccursaleID"
+                    title="Succursale"
+                    name="Succursales"
                     allowMultiple={false}
-                    dataSource={referenceData.succursales}
+                    dataSource={data.succursales}
                     textField="Name"
                     idField="Id"
                 />
@@ -107,8 +105,17 @@ export default function Scheduler({ data }: { data: Record<string, any> }) {
                     title="Comité"
                     name="Comités"
                     allowMultiple={false}
-                    dataSource={referenceData.comites}
-                    groupIDField="SuccursalId"
+                    dataSource={data.comites}
+                    groupIDField="SuccursaleID"
+                    textField="Name"
+                    idField="Id"
+                />
+                <ResourceDirective
+                    field="PosteIDs"
+                    title="Postes"
+                    name="Postes"
+                    allowMultiple={true}
+                    dataSource={data.postes}
                     textField="Name"
                     idField="Id"
                 />

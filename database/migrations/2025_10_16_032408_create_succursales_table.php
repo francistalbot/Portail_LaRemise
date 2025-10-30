@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('succursales', function (Blueprint $table) {
             $table->id();
             $table->string('nom')->unique();
-            $table->string('couleur', 7)->nullable(); // Hex color code
             $table->timestamps();
         });
     }

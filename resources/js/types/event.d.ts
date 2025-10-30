@@ -9,7 +9,7 @@ export interface Event {
     RecurrenceException?: string;
     RecurrenceID?: number;
     Location?: string;
-    SuccursalID?: number;
+    SuccursaleID?: number;
     ComiteID?: number;
     PosteIDs?: number[];
 }

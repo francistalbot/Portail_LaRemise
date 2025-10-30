@@ -23,52 +23,63 @@ class HomeController extends Controller
         $benevoles = Benevole::all();
         $plagesHoraires = PlageHoraire::with(['succursale', 'comite'])->get();
         $affectations = Affectation::with(['benevole', 'poste', 'plageHoraire.succursale', 'plageHoraire.comite'])->get();
-        
-        // Organiser les données de référence pour les dropdowns/filtres
-        $referenceData = [
-            'succursales' => $succursales->map(function ($succursale) {
+
+        $plagesHoraires = $plagesHoraires->map(function ($plage) {
+            return [
+                'Id' => $plage->id,
+                'Subject' => $plage->titre,
+                'StartTime' => $plage->date_debut,
+                'EndTime' => $plage->date_fin,
+                'IsAllDay' => $plage->is_all_day,
+                'Description' => $plage->description ?? '',
+                'SuccursaleID' => $plage->comite->succursale_id,
+                'ComiteID' => $plage->comite_id,
+                'PosteIDs' => $plage->postes->pluck('id')->toArray(),
+                'RecurrenceRule' => $plage->recurrence_regle,
+                'RecurrenceException' => $plage->recurrence_exception,
+                'RecurrenceID' => $plage->recurrence_id,
+            ];
+        });
+
+        $succursales = $succursales->map(function ($succursale) {
                 return [
                     'Id' => $succursale->id,
                     'Name' => $succursale->nom,
-                    'Text' => $succursale->nom,
-                    'Color' => $succursale->couleur ?? '#3788d8'
                 ];
-            }),
-            'comites' => $comites->map(function ($comite) {
-                return [
-                    'Id' => $comite->id,
-                    'Name' => $comite->nom,
-                    'Text' => $comite->nom,
-                    'DepartmentId' => $comite->succursale_id,
-                    'Color' => $comite->couleur ?? '#56ca85'
-                ];
-            }),
-            'postes' => $postes->map(function ($poste) {
-                return [
-                    'Id' => $poste->id,
-                    'Name' => $poste->nom,
-                    'Text' => $poste->nom,
-                    'Description' => $poste->description
-                ];
-            }),
-            'benevoles' => $benevoles->map(function ($benevole) {
+            });
+
+        $comites = $comites->map(function ($comite) {
+            return [
+                'Id' => $comite->id,
+                'Name' => $comite->nom,
+                'SuccursaleID' => $comite->succursale_id,
+                'Color' => $comite->couleur ?? '#56ca85'
+            ];
+        });
+
+        $postes = $postes->map(function ($poste) {
+            return [
+                'Id' => $poste->id,
+                'Name' => $poste->nom,
+            ];
+        
+        });
+
+        $benevoles = $benevoles->map(function ($benevole) {
                 return [
                     'Id' => $benevole->id,
                     'Name' => $benevole->nom,
-                    'Email' => $benevole->email,
-                    'Phone' => $benevole->telephone ?? '',
-                    'Available' => true // À adapter selon votre logique
+                    'ComiteID' => $benevole->comite_id,
                 ];
-            })
-        ];
+            });
 
         return Inertia::render('Calendar', [
             'data' => [
                 'affectations' => $affectations,
-                'succursales' => $referenceData['succursales'],
-                'comites' => $referenceData['comites'],
-                'postes' => $referenceData['postes'],
-                'benevoles' => $referenceData['benevoles'],
+                'succursales' => $succursales,
+                'comites' => $comites,
+                'postes' => $postes,
+                'benevoles' => $benevoles,
                 'plagesHoraires' => $plagesHoraires
             ]
         ]);

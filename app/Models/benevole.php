@@ -15,15 +15,10 @@ class benevole extends Model
         'slackUserId',
         'email',
         'comite_id',
-        'succursale_id',
     ];
 
     public function comite()
     {
         return $this->belongsTo(Comite::class);
-    }
-    public function succursale()
-    {
-        return $this->belongsTo(Succursale::class);
     }
 }
