@@ -22,9 +22,13 @@ import { customizeEditorTemplate } from "./customizeEditorTemplate";
 import { CustomDataManager } from "./customDataManager";
 import { AgendaEventTemplate, EventTemplate } from "./EventTemplate";
 
-export default function Scheduler() {
+export default function Scheduler({ data }: { data: Record<string, any> }) {
+
+    console.log("données dans Scheduler.tsx :", data.plagesHoraires);
+    
     // Sélectionner seulement les données spécifiques nécessaires
     const dataManager = CustomDataManager.getInstance();
+
 
     const referenceData = dataManager.getReferenceData();
 
@@ -35,7 +39,8 @@ export default function Scheduler() {
     };
 
     const eventSettings: EventSettingsModel = {
-        dataSource: dataManager,
+        dataSource: data.plagesHoraires || [],
+       fields: { id: 'id', subject: { title: 'Title', name: 'titre' }, location: { title: 'Location', name: 'Location' }, description: { title: 'Description', name: 'description' }, startTime: { title: 'From', name: 'date_debut' }, endTime: { title: 'To', name: 'date_fin' }, recurrenceRule: { title: 'Recurrence', name: 'recurrence_regle' },  recurrenceException: { title: 'Recurrence Exception', name: 'recurrence_exception'}, },
     };
 
     const onPopupOpen = (args: PopupOpenEventArgs) => {
