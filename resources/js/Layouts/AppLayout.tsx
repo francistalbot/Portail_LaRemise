@@ -6,9 +6,9 @@ import { Sidebar } from "./Partials/Sidebar";
 
 export default function AppLayout({
     children,
-    props: { auth, laravelVersion, phpVersion },
+    props: { auth },
 }: PropsWithChildren<{
-    props: PageProps<{ laravelVersion: string; phpVersion: string }>;
+    props: PageProps;
 }>) {
     return (
         <div className="bg-gray-100 text-black">
@@ -57,9 +57,6 @@ export default function AppLayout({
                     {children}
                 </main>
             </div>
-            <footer className="py-16 text-center text-sm text-black dark:text-white/70">
-                Laravel v{laravelVersion} (PHP v{phpVersion})
-            </footer>
         </div>
     );
 }

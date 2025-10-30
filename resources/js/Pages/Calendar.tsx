@@ -7,25 +7,20 @@ import { Provider } from "react-redux";
 
 export default function Welcome({
     auth,
-    laravelVersion,
-    phpVersion,
-}: PageProps<{ laravelVersion: string; phpVersion: string }>) {
+    data,
+}: PageProps<{ data: Record<string, any>}>) {
     return (
         <AppLayout
             props={{
                 auth: auth,
-                laravelVersion: laravelVersion,
-                phpVersion: phpVersion,
             }}
         >
-            <Head title="Welcome" />
-            <main className=" main-content e-content-animation">
+            <Head title="Calendrier" />
                 <div className="main-wrapper px-5 py-3">
                     <Provider store={store}>
-                        <Scheduler />
+                        <Scheduler data={data} /> 
                     </Provider>
                 </div>
-            </main>
         </AppLayout>
     );
 }

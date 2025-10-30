@@ -90,7 +90,7 @@ class ReferenceDataController extends Controller
     {
         return response()->json(
             Benevole::with('comite:id,nom')
-                ->get(['id', 'nom', 'email', 'comite_id'])
+                ->get(['id', 'nom', 'email', 'comite_id', 'slackUserId'])
         );
     }
 
