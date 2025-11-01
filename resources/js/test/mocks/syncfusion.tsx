@@ -9,6 +9,7 @@ export const DropDownListComponent = vi.fn(
         value,
         change,
         fields = { text: "text", value: "value" },
+        enabled = true,
     }: any) => {
         const React = require("react");
         return React.createElement(
@@ -22,6 +23,7 @@ export const DropDownListComponent = vi.fn(
                     change && change({ value: selectedValue });
                 },
                 "aria-label": placeholder,
+                disabled: !enabled,
             },
             [
                 React.createElement(
