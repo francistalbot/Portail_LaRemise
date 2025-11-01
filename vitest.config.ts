@@ -27,7 +27,7 @@ export default defineConfig({
                 "resources/js/bootstrap.ts",
                 "resources/js/app.tsx",
             ],
-            include: ["resources/js/util.tsx", "resources/js/Components/Modal.tsx", "resources/js/Components/Scheduler/PosteAssignmentDropdown.tsx"],
+            include: ["resources/js/util.ts", "resources/js/Components/Modal.tsx", "resources/js/Components/Scheduler/PosteAssignmentDropdown.tsx"],
         },
     },
     resolve: {
