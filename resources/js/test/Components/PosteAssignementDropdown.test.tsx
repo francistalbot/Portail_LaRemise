@@ -7,7 +7,7 @@ vi.mock("@syncfusion/ej2-react-dropdowns", async () => {
     return actual;
 });
 
-import { PosteAssignmentDropdown } from "../Components/Scheduler/PosteAssignmentDropdown";
+import { PosteAssignmentDropdown } from "../../Components/Scheduler/PosteAssignmentDropdown";
 
 describe("PosteAssignmentDropdown", () => {
     let currentStatus = "idle";

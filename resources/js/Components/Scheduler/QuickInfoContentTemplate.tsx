@@ -32,9 +32,9 @@ export const QuickInfoContentTemplate = (props: {
     const comiteData = eventData.ComiteID
         ? referenceData.comites.find((c: Comite) => c.Id === eventData.ComiteID)
         : undefined;
-    const succursalData = eventData.SuccursalID
+    const succursalData = eventData.SuccursaleID
         ? referenceData.succursales.find(
-              (s: Succursale) => s.Id === eventData.SuccursalID
+              (s: Succursale) => s.Id === eventData.SuccursaleID
           )
         : undefined;
     const postesData = eventData.PosteIDs
