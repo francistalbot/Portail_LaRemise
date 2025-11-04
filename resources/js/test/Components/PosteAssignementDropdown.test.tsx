@@ -100,7 +100,7 @@ describe("PosteAssignmentDropdown", () => {
         expect(screen.getByText("Chargement...")).toBeInTheDocument();
     });
 
-    it("starts with idle status, assigns benevole, moves to success and confirms value", async () => {
+    it("Modifies the assignment once the promises is resolve", async () => {
         mockAssignBenevole.mockResolvedValue({ BenevoleID: 2 });
         render(<PosteAssignmentDropdown {...defaultProps} />);
         const dropdown = screen.getByRole("combobox");
