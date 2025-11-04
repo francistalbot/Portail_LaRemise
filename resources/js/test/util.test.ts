@@ -40,6 +40,18 @@ describe("filterByCategoryName", () => {
         expect(result).toHaveLength(1);
         expect(result[0].nom).toBe("Jean Dupont");
     });
+
+        it("les espaces ne devraient pas affecter la recherche", () => {
+        const searchTerm = "  jean ";
+        const categoryName = "invalid_Catergory_Name";
+
+        const result = filterByCategoryName(mockData, categoryName, searchTerm);
+
+        expect(result).toHaveLength(0);
+
+    });
+
+
 });
 
 describe("getDateString", () => {
@@ -71,6 +83,16 @@ describe("getDateString", () => {
         const skeleton = "medium";
         const result = getDateString(date, type, skeleton);
         expect(result).toBe("Mar 15, 2023, 12:00:00 PM");
+    });
+
+    //test Extreme
+    it("ne formate pas la date si le skeleton n'a pas de valeur reconnu", () => {
+        const type = "dateTime";
+        const skeleton = "invalid_skeleton"; // Utiliser un skeleton invalide
+        
+        expect(() => {
+            getDateString(date, type, skeleton);
+        }).toThrow();
     });
 });
 
@@ -114,6 +136,40 @@ describe("getEventTimeRange", () => {
         };
         const result = getEventTimeRange(event);
         expect(result).toBe(
+            "March 15, 2023 (All day) - March 16, 2023 (All day)"
+        );
+    });
+
+    //Test Extreme
+    it("formate la plage horaire d'un événement qui se termine avant de commencer", () => {
+        const event = {
+            StartTime: "2023-03-15T12:00:00",
+            EndTime: "2023-03-15T10:00:00",
+            IsAllDay: false,
+        };
+    const result = getEventTimeRange(event);
+    expect(result).toBe("");
+    });
+
+
+    it("formate la plage horaire d'un événement de journée entière que la date de fin est moins de 24h après le début", () => {
+        const event = {
+            StartTime: "2023-03-15T12:00:00",
+            EndTime: "2023-03-16T11:00:00",
+            IsAllDay: true, 
+        };
+        const result = getEventTimeRange(event);
+        expect(result).toBe("");
+    });
+
+    it("ne formate pas correctement si la dates n'est pas bien formaté", () => {
+        const event = {
+            StartTime: "20230315T12:00:00",
+            EndTime: "2023-03-17T12:00:00",
+            IsAllDay: true,
+        };
+        const result = getEventTimeRange(event);
+        expect(result).not.toBe(
             "March 15, 2023 (All day) - March 16, 2023 (All day)"
         );
     });

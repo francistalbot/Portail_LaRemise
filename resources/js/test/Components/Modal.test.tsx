@@ -42,4 +42,21 @@ describe("Modal Component", () => {
         
         expect(defaultProps.onClose).not.toHaveBeenCalled();
     });
+
+    it("calls onClose when close button is clicked", () => {
+        const mockOnClose = vi.fn();
+        render(<Modal {...defaultProps} onClose={mockOnClose} />);
+
+        fireEvent.keyDown(document, { key: 'Escape', code: 'Escape' }) ;
+
+        expect(mockOnClose).toHaveBeenCalledTimes(1);
+    });
+    
+    it("does not render if show is undefined", () => {
+        render(<Modal {...defaultProps} show={undefined} />);
+        
+        expect(screen.queryByText("Modal Content")).not.toBeInTheDocument();
+  
+    });
+    
 });
