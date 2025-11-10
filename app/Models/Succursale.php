@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Succursale extends Model
 {
@@ -14,7 +15,7 @@ class Succursale extends Model
     /**
      * Relation: Une succursale a plusieurs comités
      */
-    public function comites()
+    public function comites(): HasMany
     {
         return $this->hasMany(Comite::class);
     }

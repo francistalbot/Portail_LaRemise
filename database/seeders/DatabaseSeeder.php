@@ -8,6 +8,7 @@ use App\Models\Comite;
 use App\Models\Poste;
 use App\Models\Benevole;
 use App\Models\PlageHoraire;
+use App\Models\Affectation;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -26,8 +27,8 @@ class DatabaseSeeder extends Seeder
 
         // Succursales (basées sur vos mocks)
         $succursales = [
-            ['id' => 1, 'nom' => 'Villeray', 'couleur' => '#ffaa00'],
-            ['id' => 2, 'nom' => 'Rosemont', 'couleur' => '#f8a398'],
+            ['id' => 1, 'nom' => 'Villeray', ],
+            ['id' => 2, 'nom' => 'Rosemont', ],
         ];
 
         foreach ($succursales as $succursale) {
@@ -109,5 +110,24 @@ class DatabaseSeeder extends Seeder
 
         $plage2 = PlageHoraire::find(2);
         $plage2->postes()->attach([1, 2]); // PosteIDs: [1, 2]
+        
+        $affectations = [
+            [
+                'benevole_id' => 1,
+                'poste_id' => 1,
+                'plage_horaire_id' => 1,
+                'date_occurrence' => '2018-06-04',
+            ],
+            [
+                'benevole_id' => 2,
+                'poste_id' => 2,
+                'plage_horaire_id' => 1,
+                'date_occurrence' => '2018-06-05',
+            ],
+        ];
+
+        foreach ($affectations as $affectation) {
+            Affectation::create($affectation);
+        }
     }
 }

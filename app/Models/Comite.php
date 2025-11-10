@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Comite extends Model
 {
@@ -17,7 +18,7 @@ class Comite extends Model
     /**
      * Relation: Un comité appartient à une succursale
      */
-    public function succursale()
+    public function succursale(): BelongsTo
     {
         return $this->belongsTo(Succursale::class);
     }

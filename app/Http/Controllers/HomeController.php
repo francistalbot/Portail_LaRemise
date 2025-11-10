@@ -23,7 +23,16 @@ class HomeController extends Controller
         $benevoles = Benevole::all();
         $plagesHoraires = PlageHoraire::with(['succursale', 'comite'])->get();
         $affectations = Affectation::with(['benevole', 'poste', 'plageHoraire.succursale', 'plageHoraire.comite'])->get();
-
+$affectations = $affectations->map(function ($affectation) {
+            
+            return [
+                'Id' => $affectation->id,
+                'PosteID' => $affectation->poste_id,
+                'BenevoleID' => $affectation->benevole_id,
+                'PlageHoraireID' => $affectation->plage_horaire_id,
+                'DateOccurrence' => $affectation->date_occurrence,
+            ];
+        });
         $plagesHoraires = $plagesHoraires->map(function ($plage) {
             return [
                 'Id' => $plage->id,

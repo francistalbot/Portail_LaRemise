@@ -12,7 +12,12 @@ class AffectationController extends Controller
         $affectations = Affectation::with(['benevole', 'poste', 'plageHoraire'])->get();
         return response()->json($affectations);
     }
-    
+    public function show(Affectation $affectation)
+    {
+        return response()->json(
+            $affectation
+        );
+    }
     /**
      * Store a newly created resource in storage.
      */
@@ -23,8 +28,6 @@ class AffectationController extends Controller
             'poste_id' => 'required|exists:postes,id',
             'benevole_id' => 'required|exists:benevoles,id',
             'date_occurence' => 'required|date|date_format:Y-m-d',
-            'heure_debut' => 'required|date_format:H:i',
-            'date_fin' => 'required|date_format:Y-m-d H:i|after:date_occurence',
         ]);
 
         $affectation = Affectation::create($validated);
@@ -37,9 +40,7 @@ class AffectationController extends Controller
             'plage_horaire_id' => 'sometimes|required|exists:plage_horaires,id',
             'poste_id' => 'sometimes|required|exists:postes,id',
             'benevole_id' => 'sometimes|required|exists:benevoles,id',
-            'date_occurence' => 'sometimes|required|date|date_format:Y-m-d',
-            'heure_debut' => 'sometimes|required|date_format:H:i',
-            'date_fin' => 'sometimes|required|date_format:Y-m-d H:i|after:date_occurence',
+            'date_occurence' => 'sometimes|required|date|date_format:Y-m-d'
     ]);
 
         $affectation->update($validated);

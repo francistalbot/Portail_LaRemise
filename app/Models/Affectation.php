@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Affectation extends Model
 {
@@ -12,8 +13,29 @@ class Affectation extends Model
         'poste_id',
         'benevole_id',
         'date_occurrence',
-        'heure_debut',
-        'date_fin',
     ];
 
+    /**
+     * Relation avec le bénévole
+     */
+    public function benevole(): BelongsTo
+    {
+        return $this->belongsTo(Benevole::class);
+    }
+
+    /**
+     * Relation avec le poste
+     */
+    public function poste(): BelongsTo
+    {
+        return $this->belongsTo(Poste::class);
+    }
+
+    /**
+     * Relation avec la plage horaire
+     */
+    public function plageHoraire(): BelongsTo
+    {
+        return $this->belongsTo(PlageHoraire::class);
+    }
 }

@@ -22,10 +22,6 @@ return new class extends Migration
             // Date spécifique de l'occurrence (pour les plages récurrentes)
             $table->date('date_occurrence');
             
-            // Heures spécifiques pour cette affectation (peut différer de la plage principale)
-            $table->time('heure_debut')->nullable();
-            $table->time('date_fin')->nullable();
-            
             $table->timestamps();
             
             // Index uniques et de performance

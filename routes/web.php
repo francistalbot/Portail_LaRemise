@@ -61,6 +61,9 @@ Route::prefix('api')->group(function () {
     // Affectations
     Route::get('/affectations', [AffectationController::class, 'index'])->name('affectations.index');
     Route::post('/affectations', [AffectationController::class, 'store'])->name('affectations.store');
+    Route::get('/affectations/{id}', [AffectationController::class, 'show'])->name('affectations.show');
+    Route::put('/affectations/{id}', [AffectationController::class, 'update'])->name('affectations.update');
+    Route::delete('/affectations/{id}', [AffectationController::class, 'destroy'])->name('affectations.destroy');
 
 });
 

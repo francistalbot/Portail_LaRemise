@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class PlageHoraire extends Model
 {
@@ -30,17 +32,17 @@ class PlageHoraire extends Model
 
     // Relations
 
-    public function comite()
+    public function comite(): BelongsTo
     {
         return $this->belongsTo(Comite::class);
     }
 
-    public function succursale()
+    public function succursale(): BelongsTo
     {
         return $this->belongsTo(Succursale::class);
     }
     
-    public function postes()
+    public function postes(): BelongsToMany
     {
         return $this->belongsToMany(Poste::class, 'plage_horaire_poste')
             ->withTimestamps();
