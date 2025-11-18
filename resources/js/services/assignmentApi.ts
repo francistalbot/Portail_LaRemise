@@ -1,108 +1,71 @@
-import { Assignment } from '@/types/assignment';
-import { router } from '@inertiajs/react';
-import { useState, useCallback } from 'react';
+import axios from "axios";
+import { AssignmentSchema } from "@/validation/assignment.schema";
+import { z } from "zod";
 
+/**
+ * Récupère les affectations pour un événement et une date donnés
+ * Valide la réponse avec Zod avant de la retourner
+ */
+const getAssignments = async (
+    eventID: number,
+    date: Date | string
+): Promise<z.infer<typeof AssignmentSchema>[]> => {
+    try {
+        // Convertir la date en format ISO si nécessaire
+        const dateStr =
+            date instanceof Date ? date.toISOString().split("T")[0] : date;
 
-interface assignmentApiReturn {
-    status: string ; // e.g. "success", "error", "loading","idle" etc.
-    assignBenevole: (data: Assignment) => Promise<void>;
-    updateAffectation: (id: number, data: Partial<Assignment>) => Promise<void>;
-    removeAffectation: (id: number) => Promise<void>;
-}
+        // Appel API avec paramètres de requête
+        const response = await axios.get("/api/affectations", {
+            params: {
+                eventID,
+                date: dateStr,
+            },
+        });
 
+        // Valider la réponse avec le schéma Zod
+        // Parser chaque élément du tableau
+        const validatedData = z
+            .array(AssignmentSchema)
+            .safeParse(response.data);
 
-export const assignmentApi = (): assignmentApiReturn => {
-    const [status, setStatus] = useState<string>('idle');
-
-    const handleSuccess = () => {
-        setStatus('success');
-        setTimeout(() => setStatus('idle'), 2000);
-    };
-
-    const handleError = () => {
-        setStatus('error');
-        setTimeout(() => setStatus('idle'), 2000);
-    } ;
-
-    const assignBenevole = async (data: Assignment) => {
-        setStatus('loading');
-        try {
-            await new Promise<void>((resolve, reject) => {
-                router.post('/api/affectations', data as any, {
-                    onSuccess: (response) => {
-                        handleSuccess();
-                        resolve();
-                    },
-                    onError: (errors) => {
-                        handleError();
-                        reject(errors);
-                    },
-                    onFinish: () => setStatus('idle'),
-                });
-            });
-        } catch (error) {
-            handleError();
-            throw error;
+        if (!validatedData.success) {
+            console.error(
+                "Erreur de validation Zod:",
+                validatedData.error.issues
+            );
+            throw new Error(JSON.stringify(validatedData.error.format()));
         }
-    };
 
-    /**
-     * Mettre à jour une affectation existante
-     */
-    const updateAffectation = async (id: number, data: Partial<Assignment>) => {
-        setStatus('loading');
+        return validatedData.data;
+    } catch (error) {
+        throw error;
+    }
+};
 
-        try {
-            await new Promise<void>((resolve, reject) => {
-                router.put(`/api/affectations/${id}`, data as any, {
-                    onSuccess: (response) => {
-                        handleSuccess();
-                        resolve();
-                    },
-                    onError: (errors) => {
-                        handleError();
-                        reject(errors);
-                    },
-                    onFinish: () => setStatus('idle'),
-                });
-            });
-        } catch (error) {
-            handleError();
-            throw error;
-        }
-    };
+const postAffectation = async (data: Record<string, any>) => {
+    const response = await axios.post("/api/affectations", data);
+    return response.data;
+};
+/**
+ * Mettre à jour une affectation existante
+ */
+const updateAffectation = async (id: number, data: Record<string, any>) => {
+    const response = await axios.put(`/api/affectations/${id}`, data);
+    return response.data;
+};
 
-    /**
-     * Supprimer une affectation (désaffecter)
-     */
-    const removeAffectation = async (id: number) => {
-        setStatus('loading');
+/**
+ * Supprimer une affectation
+ */
+const removeAffectation = async (id: number) => {
+    const response = await axios.delete(`/api/affectations/${id}`);
+    return response.data;
+};
 
-        try {
-            await new Promise<void>((resolve, reject) => {
-                router.delete(`/api/affectations/${id}`, {
-                    onSuccess: (response) => {
-                        handleSuccess();
-                        resolve();
-                    },
-                    onError: (errors) => {
-                        handleError();
-                        reject(errors);
-                    },
-                    onFinish: () => setStatus('idle'),
-                });
-            });
-        } catch (error) {
-            handleError();
-            throw error;
-        }
-    };
-
-   
-    return {
-        status,
-        assignBenevole,
-        updateAffectation,
-        removeAffectation,
-    };
+export {
+    getAssignments,
+    postAffectation,
+    updateAffectation,
+    removeAffectation,
 };
