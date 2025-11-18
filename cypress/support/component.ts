@@ -1,21 +1,9 @@
 // cypress/support/component.ts
-import { mount } from "@cypress/react";
-import { MountOptions, MountReturn } from "@cypress/react";
+import { mount } from "cypress/react";
+import { registerLicense } from "@syncfusion/ej2-base";
 
-// Import testing library commands
-import "@testing-library/cypress/add-commands";
-
-// Augment the Cypress namespace to include type definitions for
-// your custom command.
-declare global {
-  namespace Cypress {
-    interface Chainable {
-      mount(
-        component: React.ReactElement,
-        options?: MountOptions
-      ): Cypress.Chainable<MountReturn>;
-    }
-  }
-}
+// Enregistrer la licence Syncfusion pour éviter les messages de trial
+registerLicense(import.meta.env.VITE_SYNCFUSION_LICENSE_KEY);
 
 Cypress.Commands.add("mount", mount);
+import "@testing-library/cypress/add-commands";
