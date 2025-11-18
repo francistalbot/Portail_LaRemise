@@ -38,22 +38,36 @@ export const Sidebar = () => {
                         </span>
                     </div>
                 </a>
-                <div className="sidebar-item calendar" id="calendar">
-                    <span className="scheduler-image">
-                        <span className="icon-schedule item-image"></span>
-                    </span>
-                    <span className="text" title="calendar">
-                        Calendrier
-                    </span>
-                </div>
-                <div className="sidebar-item volunteers" id="volunteers">
-                    <span className="volunteers-image">
-                        <span className="icon-volunteers item-image"></span>
-                    </span>
-                    <span className="text" title="volunteers">
-                        Bénévoles
-                    </span>
-                </div>
+                <a href={route("calendar")}>
+                    <div
+                        className={`sidebar-item dashboard ${
+                            route().current("calendar") ? "active-item" : ""
+                        }`}
+                        id="calendar"
+                    >
+                        <span className="scheduler-image">
+                            <span className="icon-schedule item-image"></span>
+                        </span>
+                        <span className="text" title="calendar">
+                            Calendrier
+                        </span>
+                    </div>
+                </a>
+                <a href={route("volunteers")}>
+                    <div
+                        className={`sidebar-item dashboard ${
+                            route().current("volunteers") ? "active-item" : ""
+                        }`}
+                        id="volunteers"
+                    >
+                        <span className="volunteers-image">
+                            <span className="icon-volunteers item-image"></span>
+                        </span>
+                        <span className="text" title="volunteers">
+                            Bénévoles
+                        </span>
+                    </div>
+                </a>
                 <div className="sidebar-item preference" id="preference">
                     <span className="preference-image">
                         <span className="icon-preference item-image"></span>

@@ -14,6 +14,16 @@ use Inertia\Response;
 
 class HomeController extends Controller
 {
+    public function volunteers(): Response
+    {
+        $benevoles = Benevole::all();
+        $comites = Comite::all();
+        return Inertia::render('Volunteers', [
+            'benevoles' => $benevoles,
+            'comites' => $comites,
+        ]);
+    }
+
     public function calendar(): Response
     {
         // Récupérer toutes les données nécessaires
@@ -110,5 +120,7 @@ class HomeController extends Controller
             ];
         })->toArray();
     }
+
+
     
 }

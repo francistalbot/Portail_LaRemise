@@ -24,6 +24,7 @@ Route::get('/dashboard', function () {
 
 // Route du calendrier qui utilise le contrôleur pour passer les données
 Route::get('/calendar', [HomeController::class, 'calendar'])->name('calendar');
+Route::get('/volunteers', [HomeController::class, 'volunteers'])->name('volunteers');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
