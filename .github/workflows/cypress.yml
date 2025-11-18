@@ -1,0 +1,19 @@
+name: Cypress
+on:
+  push: { branches: ["**"] }
+  pull_request:
+jobs:
+  component:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install
+        run: npm install
+      - name: Run Cypress
+        run: npm run ct:run
