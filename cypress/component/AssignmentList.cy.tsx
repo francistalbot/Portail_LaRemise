@@ -1,13 +1,5 @@
 import { AssignmentList } from "../../resources/js/Components/Scheduler/AssignementList.tsx";
 describe("getAssignments - API avec validation Zod", () => {
-    beforeEach(() => {
-        cy.clock();
-    });
-
-    afterEach(() => {
-        cy.clock().then((clock) => clock.restore());
-    });
-
     const benevoles = [
         { Id: 5, Name: "Jean Dupont" },
         { Id: 6, Name: "Marie Curie" },
@@ -23,8 +15,9 @@ describe("getAssignments - API avec validation Zod", () => {
             EventID: 1,
         },
     ];
-    it("charge et affiche les affectations pour un événement et une date", () => {
-        let assignments: Record<string, any>[] = initialAssignments;
+
+    beforeEach(() => {
+        cy.clock();
         // GET - Récupérer les affectations
         cy.intercept(
             "GET",
@@ -32,18 +25,18 @@ describe("getAssignments - API avec validation Zod", () => {
             (req) => {
                 req.reply({
                     statusCode: 200,
-                    body: assignments,
+                    body: initialAssignments,
                 });
             }
         ).as("getAssignments");
         // PUT - Mettre à jour une affectation
         cy.intercept("PUT", "/api/affectations/*", (req) => {
             const assignmentId = parseInt(req.url.split("/").pop() || "0");
-            const assignmentIndex = assignments.findIndex(
+            const assignmentIndex = initialAssignments.findIndex(
                 (a) => a.Id === assignmentId
             );
             if (assignmentIndex !== -1) {
-                assignments[assignmentIndex] = {
+                initialAssignments[assignmentIndex] = {
                     Id: assignmentId,
                     Date: req.body.Date,
                     PosteID: req.body.PosteID,
@@ -62,6 +55,14 @@ describe("getAssignments - API avec validation Zod", () => {
                 },
             });
         }).as("updateAffectation");
+    });
+
+    afterEach(() => {
+        cy.clock().then((clock) => clock.restore());
+    });
+
+    it("charge et affiche les affectations pour un événement et une date", () => {
+        let assignments: Record<string, any>[] = initialAssignments;
 
         cy.mount(
             <AssignmentList
@@ -81,6 +82,7 @@ describe("getAssignments - API avec validation Zod", () => {
     it("crée une nouvelle affectation via l'interface", () => {
         let assignments: Record<string, any>[] = [];
 
+        // GET - Renvoi aucune affectation
         cy.intercept(
             "GET",
             "/api/affectations?eventID=1&date=2024-06-15",

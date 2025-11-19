@@ -64,9 +64,10 @@ describe("getAssignments - API avec validation Zod", () => {
     });
 
     it("charge et affiche les affectations pour un événement et une date", () => {
-        // Mock de la réponse API conforme au schéma Zod
+        // Mock de la réponse API conforme au schéma Zod avec délai
         cy.intercept("GET", "/api/affectations?eventID=1&date=2025-12-01", {
             statusCode: 200,
+            delay: 100, // Délai pour permettre à l'état loading d'apparaître
             body: [
                 {
                     Id: 1,
@@ -86,8 +87,12 @@ describe("getAssignments - API avec validation Zod", () => {
         }).as("getAssignments");
 
         cy.mount(<AssignmentLoader eventID={1} date="2025-12-01" />);
+
         // Vérifier l'état de chargement
         cy.get('[data-testid="loading"]').should("be.visible");
+
+        // Faire avancer le temps pour que la réponse arrive
+        cy.tick(100);
 
         // Attendre la réponse
         cy.wait("@getAssignments");
