@@ -1,26 +1,38 @@
-import '@testing-library/cypress/';
-describe('Parcours principal - Accueil vers succès', () => {
-  it('Accueil → Formulaire → Succès', () => {
-    cy.visit('http://localhost:3000');
-
-    // Accueil visible
-    cy.findByRole('heading', { name: /accueil/i }).should('be.visible');
-    cy.findByRole('link', { name: /bénévoles/i }).click();
-
-    // Page bénévoles
-    cy.findByRole('heading', { name: /bénévoles/i }).should('be.visible');
-    cy.findByRole('link', { name: /ajouter un bénévole/i }).click();
-
-    // Formulaire
-    cy.findByRole('form').within(() => {
-      cy.findByLabelText(/prénom/i).type('Jean');
-      cy.findByLabelText(/nom/i).type('Dupont');
-      cy.findByLabelText(/email/i).type('jean.dupont@example.com');
-      cy.findByLabelText(/téléphone/i).type('1234567890');
-      cy.findByRole('button', { name: /enregistrer/i }).click();
+describe("Parcours principal - Accueil vers succès", () => {
+    beforeEach(() => {
+        cy.exec("php artisan migrate:fresh --seed");
     });
+    it("Affiche les erreurs de validation sur soumission invalide", () => {
+        cy.visit("http://localhost:8000/");
 
-    // Succès
-    cy.findByRole('alert', { name: /bénévole enregistré avec succès/i }).should('be.visible');
-  });
+        // Accueil visible
+        cy.get("#portalSideBar").should("be.visible");
+        cy.findByRole("link", { name: /bénévoles/i }).click();
+
+        // Formulaire vide
+        cy.getByTest("submit-button").click();
+        // Messages d'erreur attendus
+        cy.getByTest("error-nom").contains("Le nom ne peut pas être vide");
+        cy.getByTest("error-email").contains(
+            "L'adresse courriel n'est pas valide"
+        );
+        cy.getByTest("error-slack").contains(
+            "L'identifiant Slack ne peut pas être vide"
+        );
+    });
+    it("Créé un bénévole avec succès", () => {
+        cy.visit("http://localhost:8000");
+
+        // Accueil visible
+        cy.get("#portalSideBar").should("be.visible");
+        cy.findByRole("link", { name: /bénévoles/i }).click();
+
+        cy.getByTest("input-nom").type("Dupont");
+        cy.getByTest("select-comite").select("2");
+        cy.getByTest("input-slack").type("U12345678");
+        cy.getByTest("input-email").type("jean.dupont2@example.com{enter}");
+
+        // Succès
+        cy.contains("Bénévole créé avec succès !").should("be.visible");
+    });
 });

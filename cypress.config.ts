@@ -6,39 +6,53 @@ import createEsbuildPlugin from "@badeball/cypress-cucumber-preprocessor/esbuild
 import path from "path";
 
 export default defineConfig({
-  component: {
-    specPattern: "cypress/component/**/*.{feature,cy.tsx}",
-    supportFile: "cypress/support/component.ts",
-    indexHtmlFile: "cypress/support/component-index.html",
-    devServer: {
-      framework: "react",
-      bundler: "vite",
-      viteConfig: {
-        resolve: {
-          alias: {
-            // Mock Syncfusion pour les tests Cypress
-            "@syncfusion/ej2-react-dropdowns": path.resolve(
-              __dirname,
-              "cypress/support/mocks/syncfusion.tsx"
-            ),
-            "@": path.resolve(__dirname, "./resources/js"),
-          },
+    component: {
+        specPattern: "cypress/component/**/*.{feature,cy.tsx}",
+        supportFile: "cypress/support/component.ts",
+        indexHtmlFile: "cypress/support/component-index.html",
+        devServer: {
+            framework: "react",
+            bundler: "vite",
+            viteConfig: {
+                resolve: {
+                    alias: {
+                        // Mock Syncfusion pour les tests Cypress
+                        "@syncfusion/ej2-react-dropdowns": path.resolve(
+                            __dirname,
+                            "cypress/support/mocks/syncfusion.tsx"
+                        ),
+                        "@": path.resolve(__dirname, "./resources/js"),
+                    },
+                },
+            },
         },
-      },
+        async setupNodeEvents(on, config) {
+            await addCucumberPreprocessorPlugin(on, config);
+            on(
+                "file:preprocessor",
+                createBundler({ plugins: [createEsbuildPlugin(config)] })
+            );
+            return config;
+        },
     },
-    async setupNodeEvents(on, config) {
-      await addCucumberPreprocessorPlugin(on, config);
-      on(
-        "file:preprocessor",
-        createBundler({ plugins: [createEsbuildPlugin(config)] })
-      );
-      return config;
-    },
-  },
 
-  e2e: {
-    setupNodeEvents(on, config) {
-      // implement node event listeners here
+    e2e: {
+        baseUrl: "http://localhost:8000",
+        viewportWidth: 1280,
+        viewportHeight: 800,
+        setupNodeEvents(on, config) {
+            on("task", {
+                resetDb() {
+                    return null;
+                },
+                seedUser(email) {
+                    return null;
+                },
+                seedProducts() {
+                    return null;
+                },
+            });
+            // implement node event listeners here
+        },
     },
-  },
 });
