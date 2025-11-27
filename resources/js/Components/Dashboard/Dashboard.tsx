@@ -1,37 +1,14 @@
 import { Head, Link } from "@inertiajs/react";
-
-// Types pour les données
-interface GridData {
-    Time: string;
-    Succursal: string;
-    Comite: string;
-    Poste: string;
-    Benevole: string;
-}
-
-interface TimeSlot {
-    id: string;
-    time: string;
-    date: string;
-    totalPositions: number;
-    filledPositions: number;
-    positions: Position[];
-}
-
-interface Position {
-    id: string;
-    name: string;
-    volunteer?: string;
-    isUrgent: boolean;
-}
-
-interface Volunteer {
-    id: string;
-    name: string;
-    email: string;
-    isAvailable: boolean;
-    lastActivity: string;
-}
+import { GridData, TimeSlot, Position, Volunteer } from "./DashboardTypes";
+import {
+    getTotalPositions,
+    getTotalFilled,
+    getCoveragePercentage,
+    getUrgentPositions,
+    getVacantPositions,
+    getCoverageColor,
+    getSlotStatus,
+} from "./dashboardUtils";
 
 export const Dashboard = () => {
     // Données existantes
@@ -166,40 +143,15 @@ export const Dashboard = () => {
         },
     ];
 
-    // Calculs
-    const totalPositions = mockTimeSlots.reduce(
-        (acc, slot) => acc + slot.totalPositions,
-        0
+    // Calculs via utilitaires
+    const totalPositions = getTotalPositions(mockTimeSlots);
+    const totalFilled = getTotalFilled(mockTimeSlots);
+    const coveragePercentage = getCoveragePercentage(
+        totalFilled,
+        totalPositions
     );
-    const totalFilled = mockTimeSlots.reduce(
-        (acc, slot) => acc + slot.filledPositions,
-        0
-    );
-    const coveragePercentage = Math.round((totalFilled / totalPositions) * 100);
-    const urgentPositions = mockTimeSlots.flatMap((slot) =>
-        slot.positions.filter((pos) => pos.isUrgent)
-    ).length;
-    const vacantPositions = gridData.filter(
-        (item) => item.Benevole === "VIDE"
-    ).length;
-
-    const getCoverageColor = (percentage: number) => {
-        if (percentage >= 80) return "text-green-600";
-        if (percentage >= 60) return "text-yellow-600";
-        return "text-red-600";
-    };
-
-    const getSlotStatus = (slot: TimeSlot) => {
-        const percentage = (slot.filledPositions / slot.totalPositions) * 100;
-        if (percentage === 100)
-            return { color: "bg-green-100 border-green-500", text: "Complet" };
-        if (percentage >= 50)
-            return {
-                color: "bg-yellow-100 border-yellow-500",
-                text: "Partiel",
-            };
-        return { color: "bg-red-100 border-red-500", text: "Urgent" };
-    };
+    const urgentPositions = getUrgentPositions(mockTimeSlots);
+    const vacantPositions = getVacantPositions(gridData);
 
     return (
         <div id="dashboard" className="p-6 bg-gray-50 min-h-screen">

@@ -6,6 +6,7 @@ import TextInput from "@/Components/TextInput";
 import InputError from "@/Components/InputError";
 import InputLabel from "@/Components/InputLabel";
 import PrimaryButton from "@/Components/PrimaryButton";
+import ComiteSelect from "@/Components/ComiteSelect";
 
 type BenevoleFormData = z.infer<typeof AssignmentSchema>;
 
@@ -184,6 +185,13 @@ export default function BenevoleForm({ comites }: BenevoleFormProps) {
                 </div>
 
                 {/* Comité */}
+                <ComiteSelect
+                    comites={comites}
+                    value={formData.comite_id}
+                    onChange={(value) => handleChange("comite_id", value)}
+                    disabled={status === "loading"}
+                    error={errors.comite_id && errors.comite_id[0]}
+                />
                 <div>
                     <InputLabel htmlFor="comiteID" value="Comité" />
                     <select

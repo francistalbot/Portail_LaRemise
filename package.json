@@ -10,6 +10,8 @@
         "test:watch": "vitest --watch",
         "ct:run": "cypress run --component",
         "ct:open": "cypress open --component",
+        "sokrates:report": "java -jar sokrates-LATEST.jar generateReports -confFile _sokrates/config.json -outputFolder _sokrates/reports"
+        ,
         "e2e:open": "cypress open --e2e",
         "e2e:run": "cypress run --e2e"
     },
