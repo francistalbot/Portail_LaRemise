@@ -9,6 +9,7 @@ import {
     getCoverageColor,
     getSlotStatus,
 } from "./dashboardUtils";
+import { HeroSection } from "../HeroSection";
 
 export const Dashboard = () => {
     // Données existantes
@@ -155,6 +156,7 @@ export const Dashboard = () => {
 
     return (
         <div id="dashboard" className="p-6 bg-gray-50 min-h-screen">
+            <HeroSection />
             {/* Header */}
             <div className="mb-6">
                 <h1 className="text-3xl font-bold text-gray-900 mb-2">

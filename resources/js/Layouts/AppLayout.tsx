@@ -1,5 +1,5 @@
 import ApplicationLogo from "@/Components/ApplicationLogo";
-import { Link } from "@inertiajs/react";
+import { Head, Link } from "@inertiajs/react";
 import { PropsWithChildren } from "react";
 import { PageProps } from "@/types";
 import { Sidebar } from "./Partials/Sidebar";
@@ -12,6 +12,10 @@ export default function AppLayout({
 }>) {
     return (
         <div className="bg-gray-100 text-black">
+            <Head>
+                <link rel="preload" as="image" href="/images/logo.webp" />
+                <link rel="preload" as="image" href="/images/hero.webp" />
+            </Head>
             <div className="portal-wrapper">
                 <header
                     className="relative top-0 left-0 right-0 z-50 w-full  mx-auto"
