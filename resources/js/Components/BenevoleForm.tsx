@@ -6,6 +6,7 @@ import TextInput from "@/Components/TextInput";
 import InputError from "@/Components/InputError";
 import InputLabel from "@/Components/InputLabel";
 import PrimaryButton from "@/Components/PrimaryButton";
+import ComiteSelect from "@/Components/ComiteSelect";
 
 type BenevoleFormData = z.infer<typeof AssignmentSchema>;
 
@@ -236,32 +237,13 @@ export default function BenevoleForm({ comites }: BenevoleFormProps) {
                 </div>
 
                 {/* Comité */}
-                <div>
-                    <InputLabel htmlFor="comiteID" value="Comité" />
-                    <select
-                        id="comiteID"
-                        value={formData.ComiteID?.toString() || ""}
-                        onChange={(e) =>
-                            handleChange("ComiteID", e.target.value)
-                        }
-                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-                        disabled={status === "loading"}
-                        data-testid="select-comite"
-                    >
-                        <option value="">-- Sélectionner un comité --</option>
-                        {comites.map((comite) => (
-                            <option key={comite.id} value={comite.id}>
-                                {comite.nom}
-                            </option>
-                        ))}
-                    </select>
-                    {errors.ComiteID && (
-                        <InputError
-                            message={errors.ComiteID[0]}
-                            data-testid="error-comite"
-                        />
-                    )}
-                </div>
+                <ComiteSelect
+                    comites={comites}
+                    value={formData.ComiteID}
+                    onChange={(value) => handleChange("ComiteID", value)}
+                    disabled={status === "loading"}
+                    error={errors.ComiteID && errors.ComiteID[0]}
+                />
 
                 {/* Bouton de soumission */}
                 <div className="flex items-center justify-end">
