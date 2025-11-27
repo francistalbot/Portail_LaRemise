@@ -9,7 +9,8 @@
         "test:ui": "vitest --ui",
         "test:watch": "vitest --watch",
         "ct:run": "cypress run --component",
-        "ct:open": "cypress open --component"
+        "ct:open": "cypress open --component",
+        "sokrates:report": "java -jar sokrates-LATEST.jar init -srcRoot . -confFile _sokrates/config.json"
     },
     "devDependencies": {
         "@badeball/cypress-cucumber-preprocessor": "^23.2.1",
