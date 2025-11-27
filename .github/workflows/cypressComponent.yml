@@ -1,4 +1,4 @@
-name: Cypress
+name: Cypress component tests
 on:
   push: { branches: ["**"] }
   pull_request:

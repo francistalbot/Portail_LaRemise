@@ -35,4 +35,24 @@ export default defineConfig({
             return config;
         },
     },
+
+    e2e: {
+        baseUrl: "http://localhost:8000",
+        viewportWidth: 1280,
+        viewportHeight: 800,
+        setupNodeEvents(on, config) {
+            on("task", {
+                resetDb() {
+                    return null;
+                },
+                seedUser(email) {
+                    return null;
+                },
+                seedProducts() {
+                    return null;
+                },
+            });
+            // implement node event listeners here
+        },
+    },
 });

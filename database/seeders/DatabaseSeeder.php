@@ -26,8 +26,8 @@ class DatabaseSeeder extends Seeder
 
         // Succursales (basées sur vos mocks)
         $succursales = [
-            ['id' => 1, 'nom' => 'Villeray', 'couleur' => '#ffaa00'],
-            ['id' => 2, 'nom' => 'Rosemont', 'couleur' => '#f8a398'],
+            ['id' => 1, 'nom' => 'Villeray'],
+            ['id' => 2, 'nom' => 'Rosemont'],
         ];
 
         foreach ($succursales as $succursale) {

@@ -12,19 +12,10 @@ type BenevoleFormData = z.infer<typeof AssignmentSchema>;
 type FormStatus = "empty" | "loading" | "error" | "success";
 
 interface FormErrors {
-    Nom?: string[];
-    Prenom?: string[];
-    Telephone?: string[];
-    Email?: string[];
-    SlackUserId?: string[];
-    ComiteID?: string[];
-}
-
-interface Comite {
-    id: number;
-    nom: string;
-    couleur?: string;
-    succursale_id: number;
+    nom?: string[];
+    email?: string[];
+    slackUserId?: string[];
+    comite_id?: string[];
 }
 
 interface BenevoleFormProps {
@@ -34,11 +25,10 @@ interface BenevoleFormProps {
 export default function BenevoleForm({ comites }: BenevoleFormProps) {
     const [status, setStatus] = useState<FormStatus>("empty");
     const [formData, setFormData] = useState<Partial<BenevoleFormData>>({
-        Nom: "",
-        Prenom: "",
-        Telephone: "",
-        Email: "",
-        SlackUserId: "",
+        nom: "",
+        email: "",
+        slackUserId: "",
+        comite_id: undefined,
     });
     const [errors, setErrors] = useState<FormErrors>({});
     const [successMessage, setSuccessMessage] = useState("");
@@ -60,9 +50,10 @@ export default function BenevoleForm({ comites }: BenevoleFormProps) {
         // Convertir ComiteID en number si présent
         const dataToValidate = {
             ...formData,
-            ComiteID: formData.ComiteID ? Number(formData.ComiteID) : undefined,
+            comite_id: formData.comite_id
+                ? Number(formData.comite_id)
+                : undefined,
         };
-
         // Validation avec Zod
         const validation = AssignmentSchema.safeParse(dataToValidate);
 
@@ -93,11 +84,10 @@ export default function BenevoleForm({ comites }: BenevoleFormProps) {
             setSuccessMessage("Bénévole créé avec succès !");
             // Réinitialiser le formulaire
             setFormData({
-                Nom: "",
-                Prenom: "",
-                Telephone: "",
-                Email: "",
-                SlackUserId: "",
+                nom: "",
+                email: "",
+                slackUserId: "",
+                comite_id: undefined,
             });
         } catch (error: any) {
             setStatus("error");
@@ -105,7 +95,7 @@ export default function BenevoleForm({ comites }: BenevoleFormProps) {
                 setErrors(error.response.data.errors);
             } else {
                 setErrors({
-                    Nom: ["Une erreur est survenue lors de la création"],
+                    nom: ["Une erreur est survenue lors de la création"],
                 });
             }
         }
@@ -134,58 +124,16 @@ export default function BenevoleForm({ comites }: BenevoleFormProps) {
                     <TextInput
                         id="nom"
                         type="text"
-                        value={formData.Nom || ""}
-                        onChange={(e) => handleChange("Nom", e.target.value)}
+                        value={formData.nom || ""}
+                        onChange={(e) => handleChange("nom", e.target.value)}
                         className="mt-1 block w-full"
                         disabled={status === "loading"}
                         data-testid="input-nom"
                     />
-                    {errors.Nom && (
+                    {errors.nom && (
                         <InputError
-                            message={errors.Nom[0]}
+                            message={errors.nom[0]}
                             data-testid="error-nom"
-                        />
-                    )}
-                </div>
-
-                {/* Prénom */}
-                <div>
-                    <InputLabel htmlFor="prenom" value="Prénom *" />
-                    <TextInput
-                        id="prenom"
-                        type="text"
-                        value={formData.Prenom || ""}
-                        onChange={(e) => handleChange("Prenom", e.target.value)}
-                        className="mt-1 block w-full"
-                        disabled={status === "loading"}
-                        data-testid="input-prenom"
-                    />
-                    {errors.Prenom && (
-                        <InputError
-                            message={errors.Prenom[0]}
-                            data-testid="error-prenom"
-                        />
-                    )}
-                </div>
-
-                {/* Téléphone */}
-                <div>
-                    <InputLabel htmlFor="telephone" value="Téléphone" />
-                    <TextInput
-                        id="telephone"
-                        type="tel"
-                        value={formData.Telephone || ""}
-                        onChange={(e) =>
-                            handleChange("Telephone", e.target.value)
-                        }
-                        className="mt-1 block w-full"
-                        disabled={status === "loading"}
-                        data-testid="input-telephone"
-                    />
-                    {errors.Telephone && (
-                        <InputError
-                            message={errors.Telephone[0]}
-                            data-testid="error-telephone"
                         />
                     )}
                 </div>
@@ -196,15 +144,15 @@ export default function BenevoleForm({ comites }: BenevoleFormProps) {
                     <TextInput
                         id="email"
                         type="email"
-                        value={formData.Email || ""}
-                        onChange={(e) => handleChange("Email", e.target.value)}
+                        value={formData.email || ""}
+                        onChange={(e) => handleChange("email", e.target.value)}
                         className="mt-1 block w-full"
                         disabled={status === "loading"}
                         data-testid="input-email"
                     />
-                    {errors.Email && (
+                    {errors.email && (
                         <InputError
-                            message={errors.Email[0]}
+                            message={errors.email[0]}
                             data-testid="error-email"
                         />
                     )}
@@ -219,17 +167,17 @@ export default function BenevoleForm({ comites }: BenevoleFormProps) {
                     <TextInput
                         id="slackUserId"
                         type="text"
-                        value={formData.SlackUserId || ""}
+                        value={formData.slackUserId || ""}
                         onChange={(e) =>
-                            handleChange("SlackUserId", e.target.value)
+                            handleChange("slackUserId", e.target.value)
                         }
                         className="mt-1 block w-full"
                         disabled={status === "loading"}
                         data-testid="input-slack"
                     />
-                    {errors.SlackUserId && (
+                    {errors.slackUserId && (
                         <InputError
-                            message={errors.SlackUserId[0]}
+                            message={errors.slackUserId[0]}
                             data-testid="error-slack"
                         />
                     )}
@@ -240,9 +188,9 @@ export default function BenevoleForm({ comites }: BenevoleFormProps) {
                     <InputLabel htmlFor="comiteID" value="Comité" />
                     <select
                         id="comiteID"
-                        value={formData.ComiteID?.toString() || ""}
+                        value={formData.comite_id?.toString() || ""}
                         onChange={(e) =>
-                            handleChange("ComiteID", e.target.value)
+                            handleChange("comite_id", e.target.value)
                         }
                         className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
                         disabled={status === "loading"}
@@ -255,9 +203,9 @@ export default function BenevoleForm({ comites }: BenevoleFormProps) {
                             </option>
                         ))}
                     </select>
-                    {errors.ComiteID && (
+                    {errors.comite_id && (
                         <InputError
-                            message={errors.ComiteID[0]}
+                            message={errors.comite_id[0]}
                             data-testid="error-comite"
                         />
                     )}

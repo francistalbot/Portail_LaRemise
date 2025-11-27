@@ -13,7 +13,6 @@ class benevole extends Model
         'nom',
         'email',
         'slackUserId',
-        'email',
         'comite_id',
     ];
 

@@ -9,7 +9,9 @@
         "test:ui": "vitest --ui",
         "test:watch": "vitest --watch",
         "ct:run": "cypress run --component",
-        "ct:open": "cypress open --component"
+        "ct:open": "cypress open --component",
+        "e2e:open": "cypress open --e2e",
+        "e2e:run": "cypress run --e2e"
     },
     "devDependencies": {
         "@badeball/cypress-cucumber-preprocessor": "^23.2.1",
