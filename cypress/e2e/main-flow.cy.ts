@@ -2,6 +2,17 @@ describe("Parcours principal - Accueil vers succès", () => {
     beforeEach(() => {
         cy.exec("php artisan migrate:fresh --seed");
     });
+    it("Accède à la page des bénévoles depuis l'accueil", () => {
+        cy.visit("http://localhost:8000/");
+
+        // Accueil visible
+        cy.get("#portalSideBar").should("be.visible");
+        cy.findByRole("link", { name: /bénévoles/i }).click();
+
+        // Vérifier que la page des bénévoles est affichée
+        cy.url().should("include", "/volunteers");
+        cy.contains("Créer un bénévole").should("be.visible");
+    });
     it("Affiche les erreurs de validation sur soumission invalide", () => {
         cy.visit("http://localhost:8000/");
 
