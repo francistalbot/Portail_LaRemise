@@ -91,6 +91,12 @@ jobs:
           php -r "file_exists('.env') || copy('.env.example', '.env');"
           php artisan key:generate
 
+      - name: Set DB credentials in .env
+        run: |
+          sed -i 's/^DB_DATABASE=.*/DB_DATABASE=test/' .env
+          sed -i 's/^DB_USERNAME=.*/DB_USERNAME=root/' .env
+          sed -i 's/^DB_PASSWORD=.*/DB_PASSWORD=password/' .env
+
       - name: Install
         run: npm ci
 
