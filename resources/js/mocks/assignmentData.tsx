@@ -1,6 +1,4 @@
-import { Assignment } from "@/types/assignment";
-
-export const assignmentData: Assignment[] = [
+export const assignmentData: Record<string, any>[] = [
     {
         Id: 1,
         StartDate: "2018-06-01T10:00:00.000Z",

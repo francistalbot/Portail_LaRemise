@@ -1,6 +1,4 @@
-import { Event } from "@/types/event";
-
-export const eventsData: Event[] = [
+export const eventsData: Record<string, any>[] = [
     {
         Id: 1,
         Subject: "Developers Meeting",

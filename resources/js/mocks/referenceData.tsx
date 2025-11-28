@@ -2,7 +2,7 @@ import { Benevole, Comite, Poste, Succursale } from "@/types/referenceData";
 
 export const succursalData: Succursale[] = [
     { Name: "Vilray", Id: 1, OwnerColor: "#ffaa00" },
-    { Name: "Plateau", Id: 2, OwnerColor: "#f8a398" },
+    { Name: "Plateau", Id: 2, OwnerColor: "#381814ff" },
 ];
 
 export const comiteData: Comite[] = [
