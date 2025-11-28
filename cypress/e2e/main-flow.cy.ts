@@ -1,7 +1,4 @@
 describe("Parcours principal - Accueil vers succès", () => {
-    beforeEach(() => {
-        cy.exec("php artisan migrate:fresh --seed");
-    });
     it("Accède à la page des bénévoles depuis l'accueil", () => {
         cy.visit("http://localhost:8000/");
 

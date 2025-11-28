@@ -2,6 +2,7 @@ name: Cypress component tests
 on:
   push: { branches: ["**"] }
   pull_request:
+
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -33,23 +34,77 @@ jobs:
         run: npm run ct:run
   e2e:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
+    env:
+      DB_DATABASE: test
+      DB_USERNAME: root
+      DB_PASSWORD: password
+      BROADCAST_DRIVER: log
+    services:
+      mysql:
+        image: mysql:5.7
+        env:
+          MYSQL_ALLOW_EMPTY_PASSWORD: false
+          MYSQL_ROOT_PASSWORD: password
+          MYSQL_DATABASE: test
+        ports:
+          - 3306/tcp
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+    strategy:
+      fail-fast: true
+      matrix:
+        php-versions: ["8.0"]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: npm
+
+      - name: Setup PHP, with composer and extensions
+        uses: shivammathur/setup-php@v2 #https://github.com/shivammathur/setup-php
+        with:
+          php-version: ${{ matrix.php-versions }}
+          tools: phpmd
+          extensions: mbstring, dom, fileinfo, mysql
+          coverage: xdebug #optional
+      - name: Start mysql service
+        run: sudo /etc/init.d/mysql start
+
+      - name: Get composer cache directory
+        id: composer-cache
+        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+      - name: Cache composer dependencies
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          # Use composer.json for key, if composer.lock is not committed.
+          # key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
+
+      - name: Install Composer dependencies
+        run: composer install --no-progress --prefer-dist --optimize-autoloader
+
+      - name: Prepare the application
+        run: |
+          php -r "file_exists('.env') || copy('.env.example', '.env');"
+          php artisan key:generate
+
       - name: Install
-        run: npm install
-      - name: Install PHP Dependencies
-        run: composer install
-      - name: Migrate Database
-        run: php artisan migrate --env=testing
+        run: npm ci
+
       - name: Run Application Server
-        run: npm run dev
-      - name: Start Client for E2E Tests
-        run: php artisan serve --port=8000
+        run: npm run build
+
+      - name: Run migrations and seed
+        run: php artisan migrate:fresh --force
+
+      - name: Start Laravel server
+        run: php artisan serve --host=127.0.0.1 --port=8000 &
+
+      - name: Wait for server
+        run: npx wait-on http://localhost:8000
+
       - name: Run Cypress - E2E Tests
         run: npm run e2e:run
