@@ -67,8 +67,21 @@ jobs:
           tools: phpmd
           extensions: mbstring, dom, fileinfo, mysql
           coverage: xdebug #optional
+
       - name: Start mysql service
         run: sudo /etc/init.d/mysql start
+
+      - name: Ensure MySQL root user for 127.0.0.1
+        run: |
+          for i in {1..30}; do
+            if mysql -h127.0.0.1 -uroot -ppassword -e "SELECT 1" > /dev/null 2>&1; then
+              echo "MySQL is up!"
+              break
+            fi
+            echo "Waiting for MySQL (user creation)..."
+            sleep 2
+          done
+          mysql -h127.0.0.1 -uroot -ppassword -e "ALTER USER 'root'@'%' IDENTIFIED BY 'password'; FLUSH PRIVILEGES;"
 
       - name: Get composer cache directory
         id: composer-cache
