@@ -97,6 +97,7 @@ jobs:
           sed -i 's/^DB_USERNAME=.*/DB_USERNAME=root/' .env
           sed -i 's/^DB_PASSWORD=.*/DB_PASSWORD=password/' .env
           sed -i 's/^DB_HOST=.*/DB_HOST=127.0.0.1/' .env
+          sed -i 's/^DB_HOST=.*/DB_HOST=127.0.0.1/' .env
 
       - name: Wait for MySQL
         run: |
@@ -125,6 +126,9 @@ jobs:
             echo "Waiting for MySQL..."
             sleep 2
           done
+
+      - name: Debug DB config
+        run: cat .env | grep DB_
 
       - name: Run migrations and seed
         run: php artisan migrate:fresh --force
