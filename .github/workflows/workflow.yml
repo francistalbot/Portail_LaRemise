@@ -43,5 +43,13 @@ jobs:
           cache: npm
       - name: Install
         run: npm install
+      - name: Install PHP Dependencies
+        run: composer install
+      - name: Migrate Database
+        run: php artisan migrate --env=testing
+      - name: Run Application Server
+        run: npm run dev
+      - name: Start Client for E2E Tests
+        run: php artisan serve --port=8000
       - name: Run Cypress - E2E Tests
         run: npm run e2e:run
