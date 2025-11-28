@@ -17,7 +17,7 @@ jobs:
         run: npm install
       - name: Test (Vitest)
         run: npm run test
-      - name: Run Cypress
+      - name: Run Cypress - Component Tests
         run: npm run ct:run
-      - name: Run Cypress
+      - name: Run Cypress - E2E Tests
         run: npm run e2e:run
